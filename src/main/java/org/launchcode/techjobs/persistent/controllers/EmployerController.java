@@ -52,7 +52,7 @@ public class EmployerController {
     }
 
     // Add an index method that responds at /employers
-    @GetMapping("/employer")
+    @GetMapping("/")
     public String index(Model model){
         model.addAttribute("employer", employerRepository.findAll());
         return "employers/index";
