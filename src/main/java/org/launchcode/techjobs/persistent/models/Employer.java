@@ -14,7 +14,7 @@ public class Employer extends AbstractEntity {
 
     //add jobs field
     @OneToMany
-    @JoinColumn
+    @JoinColumn(referencedColumnName = "employer_id")
     private List<Job> jobs = new ArrayList<>();
 
     // employer can only have one location
