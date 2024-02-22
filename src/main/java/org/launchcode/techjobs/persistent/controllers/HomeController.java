@@ -1,8 +1,12 @@
 package org.launchcode.techjobs.persistent.controllers;
 
 import jakarta.validation.Valid;
+import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Job;
+import org.launchcode.techjobs.persistent.models.Skill;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
+import org.launchcode.techjobs.persistent.models.data.JobRepository;
+import org.launchcode.techjobs.persistent.models.data.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +27,11 @@ public class HomeController {
 
     @Autowired
     EmployerRepository employerRepository;
+    @Autowired
+    JobRepository jobRepository;
+    @Autowired
+    SkillRepository skillRepository;
+
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -32,24 +41,27 @@ public class HomeController {
         return "index";
     }
 
+    // note of the name of the variable being used to pass the selected employer id on form submission -- Add Job
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
-	model.addAttribute("title", "Add Job");
+        model.addAttribute("title", "Add Job");
         model.addAttribute(new Job());
         //Add the employer data from employerRepository into the form template.
-        List employers= (List) employerRepository.findAll();
-        model.addAttribute("employers", employers);
+        model.addAttribute("employers", employerRepository.findAll());
+        //The failing test also tests for the Skills repository???
+
         return "add";
     }
 
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                       Errors errors, Model model, @RequestParam int employerId) {
+                                    Errors errors, Model model, @RequestParam int employerId) {
 
         if (errors.hasErrors()) {
-	    model.addAttribute("title", "Add Job");
-        //An employer only needs to be found and set on the new job object if the form data is validated.
-            List employers= (List) employerRepository.findAll();
+
+            model.addAttribute("title", "Add Job");
+            model.addAttribute(new Job());
+            model.addAttribute("empolyers", employerRepository.findAll());
             return "add";
         }
 
@@ -59,7 +71,7 @@ public class HomeController {
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
 
-            return "view";
+        return "view";
     }
 
 }

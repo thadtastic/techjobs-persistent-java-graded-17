@@ -13,9 +13,9 @@ import java.util.List;
 public class Employer extends AbstractEntity {
 
     //add jobs field
-    @OneToMany
-    @JoinColumn(referencedColumnName = "employer_id")
-    private List<Job> jobs = new ArrayList<>();
+    @OneToMany//(mappedBy = "employer")
+    @JoinColumn(name = "employer_id")
+    private final List<Job> jobs = new ArrayList<>();
 
     // employer can only have one location
     @NotBlank
@@ -33,4 +33,12 @@ public class Employer extends AbstractEntity {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+//
+//    public void setJobs(List<Job> jobs) {
+//        this.jobs = jobs;
+//    }
 }

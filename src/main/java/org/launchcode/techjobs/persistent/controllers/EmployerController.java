@@ -18,6 +18,13 @@ public class EmployerController {
     @Autowired
     private EmployerRepository employerRepository;
 
+    // Add an index method that responds at /employers
+    @GetMapping("/")
+    public String index(Model model){
+        model.addAttribute("employer", employerRepository.findAll());
+        return "employers/index";
+    }
+
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
 
@@ -52,10 +59,5 @@ public class EmployerController {
 
     }
 
-    // Add an index method that responds at /employers
-    @GetMapping("/")
-    public String index(Model model){
-        model.addAttribute("employer", employerRepository.findAll());
-        return "employers/index";
-    }
+
 }
