@@ -13,7 +13,7 @@ import java.util.List;
 public class Employer extends AbstractEntity {
 
     //add jobs field
-    @OneToMany//(mappedBy = "employer")
+    @OneToMany
     @JoinColumn(name = "employer_id")
     private final List<Job> jobs = new ArrayList<>();
 
@@ -37,8 +37,8 @@ public class Employer extends AbstractEntity {
     public List<Job> getJobs() {
         return jobs;
     }
-//
-//    public void setJobs(List<Job> jobs) {
-//        this.jobs = jobs;
-//    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
 }
