@@ -32,9 +32,11 @@ public class SkillController {
                                          Errors errors, Model model) {
 
         if (errors.hasErrors()) {
+            model.addAttribute(new Skill());
             return "skills/add";
         }else{
-            model.addAttribute("skill", skillRepository.save(newSkill));
+           // model.addAttribute("skill", skillRepository.save(newSkill));
+            skillRepository.save(newSkill);
         }
 
         return "redirect:";
@@ -57,7 +59,7 @@ public class SkillController {
     // Add an index method that responds at /employers
     @GetMapping("/")
     public String index(Model model){
-        model.addAttribute("skill", skillRepository.findAll());
+        model.addAttribute("skills", skillRepository.findAll());
         return "skills/index";
     }
 

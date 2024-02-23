@@ -21,7 +21,7 @@ public class EmployerController {
     // Add an index method that responds at /employers
     @GetMapping("/")
     public String index(Model model){
-        model.addAttribute("employer", employerRepository.findAll());
+        model.addAttribute("employers", employerRepository.findAll());
         return "employers/index";
     }
 
@@ -39,7 +39,8 @@ public class EmployerController {
         if (errors.hasErrors()) {
             return "employers/add";
         }else{
-            model.addAttribute("employer", employerRepository.save(newEmployer));
+           // model.addAttribute("employer", employerRepository.save(newEmployer));
+            employerRepository.save(newEmployer); // just needs to be saved, Data sent to the view is not needed
         }
 
         return "redirect:";
@@ -48,7 +49,7 @@ public class EmployerController {
     @GetMapping("view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 
-        Optional optEmployer = employerRepository.findById(employerId);
+        Optional <Employer> optEmployer = employerRepository.findById(employerId);
         if (optEmployer.isPresent()) {
             Employer employer = (Employer) optEmployer.get();
             model.addAttribute("employer", employer);

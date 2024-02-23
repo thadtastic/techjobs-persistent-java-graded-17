@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,7 +15,7 @@ public class Job extends AbstractEntity {
     @ManyToOne
     private Employer employer;
    @ManyToMany
-    private List<Skill> skills; // needs to be a list, object won't work
+    private List<Skill> skills = new ArrayList<>(); // needs to be a list, object won't work has to be a collection type
 
 
     public Job() {}
@@ -43,6 +44,10 @@ public class Job extends AbstractEntity {
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
+    }
+
+    public void addSkill( Skill skill){
+        this.skills.add(skill);
     }
 
 }

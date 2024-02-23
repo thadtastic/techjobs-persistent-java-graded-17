@@ -23,8 +23,7 @@ public class Employer extends AbstractEntity {
     private String location;
 
     //no-arg constructor
-    public Employer() {
-    }
+    public Employer() {}
 
     public String getLocation() {
         return location;

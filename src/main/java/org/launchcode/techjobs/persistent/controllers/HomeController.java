@@ -52,8 +52,8 @@ public class HomeController {
         List<Employer> employers = (List<Employer>) employerRepository.findAll();
         model.addAttribute("employers", employers);
         //model.addAttribute("employers", employerRepository.findAll());
-       List<Skill> skills = (List<Skill>) skillRepository.findAll();
-       model.addAttribute("skills", skills);
+        List<Skill> skills = (List<Skill>) skillRepository.findAll();
+        model.addAttribute("skills", skills);
         //model.addAttribute("skills", skillRepository.findAll());
 
         return "add";
@@ -62,32 +62,33 @@ public class HomeController {
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
                                     Errors errors, Model model, @RequestParam int employerId,
-                                    @RequestParam List<Integer> skills) {
+                                    @RequestParam(required = false) List<Integer> skills) {
 
         if (errors.hasErrors()) {
 
             model.addAttribute("title", "Add Job");
-            //model.addAttribute(new Job());
-            List<Employer>employers = (List<Employer>) employerRepository.findAll();
-          model.addAttribute("employers", employers);
-//            model.addAttribute("skills", skillRepository.findAll());
+        //    model.addAttribute(new Job());
+            List<Employer> employers = (List<Employer>) employerRepository.findAll();
+            model.addAttribute("employers", employers);
+            model.addAttribute("skills", skillRepository.findAll());
+
             return "add";
+        } else {
+
+
+            //use employerId param somehow, use id to lookup employer and set it into the new job
+            Optional<Employer> optEmployer = employerRepository.findById(employerId);
+            if (optEmployer.isPresent()) {
+                Employer employer = optEmployer.get();
+                newJob.setEmployer(employer);
+            }
         }
 
-
-
-        //use employerId param somehow, use id to lookup employer and set it into the new job
-        Optional<Employer>optEmployer = employerRepository.findById(employerId);
-       if(optEmployer.isPresent()){
-           Employer employer = optEmployer.get();
-           newJob.setEmployer(employer);
-       }
-
-      // model.addAttribute("employers", optionalEmployer);
-
-        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-        newJob.setSkills(skillObjs);
-
+        // model.addAttribute("employers", optionalEmployer);
+        if(skills != null) {
+            List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+            newJob.setSkills(skillObjs);
+        }
         jobRepository.save(newJob);
 
         return "redirect:";
