@@ -49,6 +49,7 @@ public class ListController {
         return "list";
     }
 
+    // live at list/jobs
     @RequestMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {
         Iterable<Job> jobs;
